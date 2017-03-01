@@ -1,0 +1,135 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <title>My first chart using FusionCharts Suite XT</title>
+
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+    <link rel="stylesheet" href="css/main.css"></link>
+
+    <script type="text/javascript" src="fusioncharts/js/fusioncharts.js"></script>
+    <script type="text/javascript" src="fusioncharts/js/themes/fusioncharts.theme.fint.js"></script>
+    <script type="text/javascript" src="fusioncharts/js/angular-fusioncharts.js"></script>
+
+    <script src='js/integration.js'></script>
+</head>
+
+<body ng-app="stats" ng-controller="MainCtrl">
+
+    <div>
+        <div class="tab-container">
+            <md-content>
+                <md-tabs md-selected="selectedTab" md-dynamic-height md-bottom-border>
+                    <md-tab label="About this Site">
+                        <p class="tab-content">
+                            <div class=text_tab>
+                                <p>
+                                    This site is built upon Angular minimal. This allows the tabs to work. It also uses <a
+                                        href=http://www.fusioncharts.com>Fusion Charts</a> to display graphs. The normal Fusion
+                                    Charts does not include the angular package for graphs. This allows for the chart's data
+                                    to be controlled with angular references. This makes updating the charts easier because
+                                    it will automatically show any updates to the data. Initailly, none of the graphs are
+                                    drawn as they take time to calculate the data points. You can move around the tabs to
+                                    get to the different tabs and input of data. We hope that you enjoy this site.</p>
+                                </br>
+
+                                <strong>Wikipedia Article on the Beta Distribution</strong>
+                                <p>
+                                    <div data-ng-init="init()" ng-bind-html="wiki_data">
+                                </p>
+                                </div>
+                                </br>
+
+                                <strong>How the Beta Distribution can used</strong>
+                                <p>Suppose you have a think you know how often LeBron James is able to make a free through.
+                                    Say that you think he makes it about 7 out of 10 times. We can use this number to generate
+                                    a prior distribution and use some collected data from his next shots to update what you
+                                    believe about LeBron James shooting percentages. To simplify this, alpha is going to
+                                    be the number of success (shots made) and beta is going to be the number of failures
+                                    (shots missed). For our prior, that is alpha = 7 and beta = 3 which looks like beta(7,3).
+                                    Then, we observe some data. This data is going to be binary data that represents shots
+                                    made or missed, 1's and 0's respectfully. This data may look like {1,1,1,1,1,1,0,1,1,1,1,0,1,1,1}.
+                                    Now, to get our posterior belief, we use our prior with the data. It will still be a
+                                    beta distribution but, with new parameters. These new parameters can be represented by
+                                    alpha_star and beta_star. Using magical math, we can determine that alpha_star = (alpha
+                                    + number of successes) and that beta_star = (beta + number of failures). This would make
+                                    our posterior a beta(7 + 13, 3 + 2) = beta(20,5). Now that we know the posterior distribution,
+                                    you can say that LeBron shooting percentage may be: 20/(20+5) or 80%.</p>
+                            </div>
+                        </p>
+                    </md-tab>
+                    <md-tab label="Example">
+                        <p class="tab-content">
+                            <div class=text_tab>
+                                <strong>Let's use the example from the first tab.</strong>
+
+                                <p>
+                                We are given that our prior belief is that Lebron true shooting percentage is modeled by a beta(7,3) distribution. Go to the Prior tab and enter the data into the input fields. If you click Update Prior Distribution Graph, it will draw or redraw the graph with the information that was given.
+                                </p>
+
+                                <p>
+                                Now that you have a prior distribution, we can move onto observed data. From the example, we learn that LeBron took 15 shots. Out of those 15 shots, he made 13 and missed 2. Go to the Data tab and enter this data into the number of successes and number of failures. Remember shots made is considered a success and a miss is considered a failure.
+                                </p>
+
+                                <p>
+                                Finally, we have all of our data entered. Using the prior and the observed data, we are not able to make a posterior distribution. Navigate to the Posterior tab and click on the Update Posterior Distribution Graph. It will display an updated belief about what LeBron's true shooting percentage.
+                                </p>
+                            </div>
+                        </p>
+                    </md-tab>
+                    <md-tab label="Prior">
+                        <p class="tab-content">
+                            <div class=data_tab>
+                                <strong>{{prior_title}}</strong></br>
+                                <fusioncharts width="600" height="400" type="spline" datasource="{{priorData}}" events="eventsPrior"></fusioncharts>
+                                </br>
+                                Alpha:
+                                <input type="number" ng-change="changeSuccess()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="priorAlpha"></input>
+                                </br>
+                                Beta:
+                                <input type="number" ng-change="changeSuccess()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="priorBeta"></input>
+                                </br>
+                                <button ng-click="drawPrior()" ng-disabled="isDisabledPrior" ng-model="priorButton">Update Prior Distribution Graph</button>
+                            </div>
+                        </p>
+                    </md-tab>
+                    <md-tab label="Data">
+                        <p class="tab-content">
+                            <div class=data_tab>
+                                <strong>Observed Data</strong></br>
+                                <fusioncharts width="600" height="400" type="column2d" datasource="{{binomData}}"></fusioncharts>
+                                </br>
+                                Number of Successes:
+                                <input type="number" ng-change="changeSuccess()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="successCount"></input>
+                                </br>
+                                Number of Failures:
+                                <input type="number" ng-change="changeFailure()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="failCount"></input>
+                            </div>
+                        </p>
+                    </md-tab>
+                    <md-tab label="Posterior">
+                        <p class="tab-content">
+                            <div class=data_tab>
+                                <strong>{{posterior_title}}</strong></br>
+                                <fusioncharts width="600" height="400" type="spline" datasource="{{postData}}" events="events"></fusioncharts>
+                                </br>
+                                <button ng-click="drawPost()" ng-disabled="isDisabled" ng-model="updateButton">Update Posterior Distribution Graph</button>
+                            </div>
+                        </p>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+        </div>
+    </div>
+</body>
+
+</html>

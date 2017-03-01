@@ -1,0 +1,21 @@
+.tab-content {
+    margin: 20px 0 0 0;
+    text-align:center;
+}
+
+.tab-change-row {
+    text-align:center;
+}
+
+.tab-change-btn {
+    display: inline-block
+}
+
+.data_tab {
+    text-align: center;
+}
+
+.text_tab{
+    margin: 20px;
+    text-align: left;
+}
