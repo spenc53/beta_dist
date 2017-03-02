@@ -89,14 +89,16 @@
                     <md-tab label="Prior">
                         <p class="tab-content">
                             <div class=data_tab>
-                                <strong>{{prior_title}}</strong></br>
+                                <strong>{{prior_title}}</strong></br>Prior Mean: {{prior_mean}}</br>Prior Varience: {{prior_var}}</br></br>
                                 <fusioncharts width="600" height="400" type="spline" datasource="{{priorData}}" events="eventsPrior"></fusioncharts>
+                                </br>
                                 </br>
                                 Alpha:
                                 <input type="number" ng-change="changeSuccess()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="priorAlpha"></input>
                                 </br>
                                 Beta:
                                 <input type="number" ng-change="changeSuccess()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="priorBeta"></input>
+                                </br>
                                 </br>
                                 <button ng-click="drawPrior()" ng-disabled="isDisabledPrior" ng-model="priorButton">Update Prior Distribution Graph</button>
                             </div>
@@ -110,7 +112,7 @@
                                 </br>
                                 Number of Successes:
                                 <input type="number" ng-change="changeSuccess()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="successCount"></input>
-                                </br>
+                                
                                 Number of Failures:
                                 <input type="number" ng-change="changeFailure()" min="0" max="25" placeholder="5" defaultValue="5" ng-model="failCount"></input>
                             </div>
@@ -119,8 +121,9 @@
                     <md-tab label="Posterior">
                         <p class="tab-content">
                             <div class=data_tab>
-                                <strong>{{posterior_title}}</strong></br>
+                                <strong>{{posterior_title}}</strong></br>Posterior Mean: {{post_mean}}</br>Posterior Varience: {{post_var}}</br></br>
                                 <fusioncharts width="600" height="400" type="spline" datasource="{{postData}}" events="events"></fusioncharts>
+                                </br>
                                 </br>
                                 <button ng-click="drawPost()" ng-disabled="isDisabled" ng-model="updateButton">Update Posterior Distribution Graph</button>
                             </div>
