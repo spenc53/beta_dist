@@ -27,6 +27,11 @@ module.controller('MainCtrl', [
         $scope.oldAlphaStar = -1;
         $scope.oldBetaStar = -1;
 
+        $scope.post_mean = "N/A";
+        $scope.post_var = "N/A";
+        $scope.prior_mean = "N/A";
+        $scope.prior_var = "N/A";
+
         $scope.prior_title = "Click button to update your Prior Distribution";
         $scope.posterior_title = "Click button to update your Posterior Distribution"
 
@@ -133,6 +138,9 @@ module.controller('MainCtrl', [
             $scope.oldAlphaStar = astar;
             $scope.oldBetaStar = bstar;
 
+            $scope.post_mean = astar/(astar + bstar);
+            $scope.post_var = (astar*bstar)/(Math.pow(astar+bstar,2)*(astar+bstar+1));
+
             $scope.posterior_title = "beta(" + astar + "," + bstar + ")"
 
             $scope.isDisabled = true;
@@ -156,6 +164,10 @@ module.controller('MainCtrl', [
 
             $scope.oldAlpha = a;
             $scope.oldBeta = b;
+
+            $scope.prior_mean = a/(a+b);
+            $scope.prior_var = (a*b)/(Math.pow(a+b,2)*(a+b+1));
+            
 
             $scope.prior_title = "beta(" + a + "," + b + ")"
 
